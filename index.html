@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>SagradoCiclo</title>
+    <!--Line Icons-->
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+    <!--Bootstrap-->
+    <link href="scss/bootstrap.css" rel="stylesheet" type="text/css" />
+    <!--Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+  <body class="bg-secondary">
+    <div class="section container my-3 pb-5" id="app">
+        <!--Menu superior-->
+        <div class="row g-3 ">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <a href="config.html" class="float-right">
+                            <i class="lni lni-lg lni-cog float-right text-muted"></i>
+                        </a>
+                        <h2 class="text-primary display-5 mt-5">
+                            <i class="lni lni-leaf"></i>
+                            <br>
+                            SagradoCiclo
+                        </h2>
+                        <button class="btn btn-primary text-white rounded-pill px-3 mx-1 mt-2" type="button" data-toggle="modal" data-target="#modal_add_diario">
+                            <i class="lni lni-plus"></i>
+                            &nbsp;Adicionar
+                        </button>
+                        <button onclick="$('#row_ultimos_dias').slideToggle();$(this).toggleClass('btn-primary btn-secondary');" class="btn btn-primary text-white rounded-pill px-3 mx-1 mt-2" type="button">
+                            <i class="lni lni-alarm-clock"></i>
+                            &nbsp;Últimos dias
+                        </button>
+                        <button onclick="$('#row_chart_humor').slideToggle();$(this).toggleClass('btn-primary btn-secondary');" class="btn btn-primary text-white rounded-pill px-3 mx-1 mt-2" type="button">
+                            <i class="lni lni-pie-chart"></i>
+                            &nbsp;Mandala
+                        </button>
+                        <button onclick="$('#row_table').slideToggle();$(this).toggleClass('btn-primary btn-secondary');" class="btn btn-primary text-white rounded-pill px-3 mx-1 mt-2" type="button">
+                            <i class="lni lni-calendar"></i>
+                            &nbsp;Tabela
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Últimos dias-->
+        <div class="row g-3 my-3" id="row_ultimos_dias">
+            <div class="card shadow">
+                <div class="card-body mt-2">
+                    <div class="row text-left p-2">
+                        <div class="col-12 text-secondary">
+                            <h6 class="display-6">Últimos dias</h6>
+                        </div>
+                    </div>
+                    <div class="row text-center p-2 rounded flex-row flex-nowrap" style="overflow-x:auto;">
+                        <div 
+                        v-for="(dia, index) in obj_diarios" 
+                        class="col-3 col-md-2 col-lg-1 py-4 mx-2 border rounded border-secondary text-sucess"
+                        >
+                            <b>
+                                <i class="lni lni-calendar"></i>
+                                {{dia.get_date_chart()}}
+                            </b>
+                            <div 
+                            v-for="(resp,index_resposta) in dia.respostas" 
+                            class="w-100 border border-white rounded" 
+                            :style="'height:30px;background-color:'+dia.get_color(index_resposta)"
+                            data-toggle="tooltip" data-placement="top" data-html="true"
+                            :title="dia.get_formated_resposta(index_resposta)"
+                            >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Mandala-->
+        <div class="row g-3 my-3" id="row_chart_humor">
+            <div class="col">
+                <div class="card shadow ">
+                    <div class="card-body mt-2">
+                        <div class="row text-left p-2">
+                            <div class="col-12 text-secondary">
+                                <h6 class="display-6">Mandala</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body mb-5">
+                        <canvas id="chart_humor"  style="min-height:600px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Tabela-->
+        <div class="row g-3 my-3" id="row_table">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-body mt-2">
+                        
+                        <div class="row text-left p-2">
+                            <div class="col-12 text-secondary">
+                                <h6 class="display-6">Todos os Registros</h6>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Dia</th>
+                                        <th 
+                                        v-for="perg in modelo.perguntas"
+                                        >
+                                            {{perg}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="diario in obj_diarios">
+                                        <td>{{diario.get_date_chart()}}</td>
+                                        <td 
+                                        v-for="(resp, index) in diario.respostas" 
+                                        :style="'background-color:'+diario.cores[index][resp-1]">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal adicionar-->
+        <div class="modal fade" id="modal_add_diario" tabindex="-1" aria-labelledby="modal_add_diario_label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_add_diario_label">Adicionar Diário</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                      <label for="form_fixed_pergunta_data" class="form-label">Data</label>
+                      <input type="date"  class="form-control" id="form_fixed_pergunta_data" aria-describedby="data_help">
+                      <div id="data_help" class="form-text">Pode adicionar de dias anteriores também ou alterar um dia existente.</div>
+                    </div>
+
+                    <div v-for="(perg, index) in modelo.perguntas" class="mb-3">
+                        <label :for="'form_pergunta_'+index" class="form-label">{{perg}}</label>
+                        <div class="input-group">
+                            <label class="input-group-text" :id="'color_label_form_pergunta_'+index+''" :for="'form_pergunta_'+index" style="background-color:white;">&nbsp;</label>
+                            <select class="form-select" :id="'form_pergunta_'+index" onchange="form_pergunta_change(this)">
+                                <option data-color="white" selected>Nenhum</option>
+                                <option :data-color="modelo.cores[index][0]">Baixo</option>
+                                <option :data-color="modelo.cores[index][1]">Médio</option>
+                                <option :data-color="modelo.cores[index][2]">Alto</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary text-white" onclick="app.add_diario();app.draw_chart();">Adicionar</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <!--VueJS-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--Helpers-->
+    <script src="js/helpers.js"></script>
+    <!--Objects-->
+    <script src="js/obj_diario.js"></script>
+    <!--Chart-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+    <script src="js/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <!--App-->
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>SagradoCiclo | Configurações</title>
+    <!--Line Icons-->
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+    <!--Bootstrap-->
+    <link href="scss/bootstrap.css" rel="stylesheet" type="text/css" />
+    <!--Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+  <body class="bg-secondary">
+    <div class="section container my-3 pb-5" id="app">
+        <!--Menu superior-->
+        <div class="row g-3 ">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <a href="index.html" class="float-right text-muted">
+                            <i class="lni lni-lg lni-chevron-left">&nbsp;</i>Voltar
+                        </a>
+                        <h2 class="text-primary display-5 mt-5">
+                            <i class="lni lni-leaf"></i>
+                            <br>
+                            SagradoCiclo
+                        </h2>
+                    </div>
+                    <div class="card-body mt-2">
+                        <div class="row g-2 mb-3">
+                            <div class="col-4 text-center text-secondary">
+                                <h4><span class="display-3">{{ obj_diarios.length }}</span><br><small>Registros Inseridos</small></h4>
+                            </div>
+                            <div class="col-4 text-center text-secondary">
+                                <h4><span class="display-3">{{ modelo.perguntas.length }}</span><br><small>Aspectos Analisados</small></h4>
+                            </div>
+                            <div class="col-4 text-center text-secondary">
+                                <h4><span class="display-3">{{ get_tempo_usando() }}</span><br><small>Dias Usando</small></h4>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-12">
+                                <ul class="list-group">
+                                    <a class="list-group-item  list-group-item-action" href="#">
+                                        <i class="lni lni-plus">&nbsp;</i>Adicionar novo aspecto
+                                    </a>
+                                    <ul class="list-group-item" v-for="(perg,index) in modelo.perguntas">
+                                        <div class="row g-2">
+                                            <div class="col-12 col-md-4 col-lg-6">
+                                                #{{index}} - {{perg}}
+                                            </div>
+                                            <div class="col-12 col-md-4 col-lg-4" style="min-height: 30px;">
+                                                <div class="row h-100 w-100 m-0">
+                                                    <div :style="'background-color:'+modelo.cores[index][0]" class="col m-0 p-0 h-100 rounded-left" ></div>
+                                                    <div :style="'background-color:'+modelo.cores[index][1]" class="col m-0 p-0 h-100" ></div>
+                                                    <div :style="'background-color:'+modelo.cores[index][2]" class="col m-0 p-0 h-100 rounded-right" ></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-2 col-lg-1">
+                                                <button class="btn btn-sm btn-block btn-outline-danger">
+                                                    <i class="lni lni-lg lni-close"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-6 col-md-2 col-lg-1">
+                                                <button class="btn btn-sm btn-block btn-outline-info">
+                                                    <i class="lni lni-lg lni-pencil"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <button class="btn btn-block btn-primary text-white">
+                                    <i class="lni lni-download">&nbsp;</i>
+                                    Baixar dados
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-block btn-secondary text-white">
+                                    <i class="lni lni-upload">&nbsp;</i>
+                                    Importar dados
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <!--VueJS-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--Helpers-->
+    <script src="js/helpers.js"></script>
+    <!--Objects-->
+    <script src="js/obj_diario.js"></script>
+    <!--Chart-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+    <script src="js/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <!--App-->
+    <script src="js/app.js"></script>
+  </body>
+</html>
