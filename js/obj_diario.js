@@ -76,7 +76,6 @@ class Diario{
     get_formated_resposta(index){
       var perg = this.perguntas[index];
       var resp = this.respostas[index];
-      console.log(resp);
       switch(resp){
         case 0:
             return perg + ' - [Nenhum]';
